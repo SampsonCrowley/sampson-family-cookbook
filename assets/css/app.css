@@ -1,0 +1,46 @@
+/* This file is for your main application css. */
+
+@import "./phoenix.css";
+.array-input-container,
+.array-input-container li {
+  margin: 0
+}
+.array-input-container input.form-control {
+  display: inline-block;
+  margin-right: 1rem;
+}
+ol.array-input-container input.form-control {
+  width: 65%;
+}
+ul.array-input-container input.form-control {
+  width: 75%;
+}
+ul.array-input-container input.form-control ~ button.remove-form-field {
+  display: inline-block;
+  width: calc(25% - 1rem);
+}
+
+ul.array-input-container {
+  list-style: none
+}
+
+table.has-many-wrapper,
+table.has-many-wrapper tr {
+  vertical-align: top;
+}
+
+.cooking-steps {
+  counter-reset: item;
+  list-style-type: none;
+}
+.cooking-steps pre {
+  margin: 0;
+  font-size: 1em;
+  padding: .25em .5em;
+}
+
+section header > h2 { margin: 0 }
+section.info { margin-bottom: 2rem; }
+section.info > * { margin-left: 2rem; }
+section.info > header { margin-left: unset; }
+.form-group { margin-bottom: 1rem; }

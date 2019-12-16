@@ -1,0 +1,14 @@
+<tr>
+  <td colspan="3" style="width: 75%">
+    <%= textarea @step, :details, class: "form-control", rows: 5 %>
+    <%= error_tag @step, :details %>
+  </td>
+  <td>
+    <%= number_input @step, :order, class: "form-control" %>
+    <%= error_tag @step, :order %>
+  </td>
+  <td>
+    <%= checkbox @step, :delete, class: "checkbox" %>
+    <%= error_tag @step, :delete %>
+  </td>
+</tr>

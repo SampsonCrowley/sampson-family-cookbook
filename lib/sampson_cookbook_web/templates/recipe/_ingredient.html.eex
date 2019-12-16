@@ -1,0 +1,18 @@
+<tr>
+  <td>
+    <%= text_input @ingredient, :name, class: "form-control" %>
+    <%= error_tag @ingredient, :name %>
+  </td>
+  <td>
+    <%= text_input @ingredient, :amount, class: "form-control" %>
+    <%= error_tag @ingredient, :amount %>
+  </td>
+  <td>
+    <%= checkbox @ingredient, :required, class: "checkbox" %>
+    <%= error_tag @ingredient, :required %>
+  </td>
+  <td>
+    <%= checkbox @ingredient, :delete, class: "checkbox" %>
+    <%= error_tag @ingredient, :delete %>
+  </td>
+</tr>

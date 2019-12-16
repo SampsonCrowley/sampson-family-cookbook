@@ -1,0 +1,78 @@
+<%= form_for @changeset, @action, fn f -> %>
+  <%= if @changeset.action do %>
+    <div class="alert alert-danger">
+      <p>Oops, something went wrong! Please check the errors below.</p>
+    </div>
+  <% end %>
+  <div>
+    <%= submit "Save Recipe" %>
+  </div>
+  <hr>
+  <section>
+    <header>
+      <h3>
+        Recipe Info
+      </h3>
+    </header>
+    <%= label f, :name %>
+    <%= text_input f, :name %>
+    <%= error_tag f, :name %>
+
+    <%= label f, :est_time, "Estimated Cook Time" %>
+    <%= duration_input f, :est_time %>
+    <%= error_tag f, :est_time %>
+
+    <%= label f, :tags, "Search Tags" %>
+    <%= array_input f, :tags, false %>
+    <%= array_add_button f, :tags, "Add Search Tag" %>
+    <%= error_tag f, :tags %>
+  </section>
+  <hr>
+  <section>
+    <header>
+      <h3>
+        Ingredients Info
+      </h3>
+    </header>
+    <table>
+      <thead>
+        <th>Ingredient</th>
+        <th>Amount</th>
+        <th>Required?</th>
+        <th>Delete?</th>
+      </thead>
+      <tbody id="ingredient_table_body">
+        <%= inputs_for f, :ingredients, fn i -> %>
+          <%= render "_ingredient.html", ingredient: i %>
+        <% end %>
+      </tbody>
+    </table>
+    <button drab="click:add_recipe_ingredient">Add Ingredient</button>
+  </section>
+  <hr>
+  <section>
+    <header>
+      <h3>
+        Cooking Steps
+      </h3>
+    </header>
+    <table class="has-many-wrapper">
+      <thead>
+        <th colspan="3">Details</th>
+        <th>Order</th>
+        <th>Delete?</th>
+      </thead>
+      <tbody id="step_table_body">
+        <%= inputs_for f, :steps, fn s -> %>
+          <%= render "_step.html", step: s %>
+        <% end %>
+      </tbody>
+    </table>
+
+    <button drab="click:add_recipe_step">Add Cooking Step</button>
+  </section>
+  <hr>
+  <div>
+    <%= submit "Save Recipe" %>
+  </div>
+<% end %>
