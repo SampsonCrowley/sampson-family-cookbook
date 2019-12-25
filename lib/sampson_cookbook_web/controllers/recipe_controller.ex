@@ -28,6 +28,7 @@ defmodule SampsonCookbookWeb.RecipeController do
   def create(conn, %{"recipe" => recipe_params, "images" => image_params}) do
     case Book.create_recipe(recipe_params) do
       {:ok, recipe} ->
+        IO.inspect image_params
         case Book.insert_images(recipe, image_params, %{}) do
           {:ok, _recipe} ->
             conn
@@ -58,9 +59,15 @@ defmodule SampsonCookbookWeb.RecipeController do
     render(conn, "edit.html", recipe: recipe, changeset: changeset, id: id)
   end
 
-  def update(conn, %{"id" => id, "recipe" => recipe_params, "delete_images" => delete_image_params, "images" => image_params}) do
+  def update(conn, %{"id" => id, "recipe" => recipe_params} = params) do
     recipe = Book.get_recipe!(id)
     recipe_params = Map.put_new(recipe_params, "tags", [])
+    delete_image_params = params["delete_images"] || %{}
+    image_params = params["images"] || %{}
+    
+    IO.inspect "MAIN FUNC"
+    IO.inspect image_params
+    IO.inspect delete_image_params
 
     case Book.update_recipe(recipe, recipe_params) do
       {:ok, recipe} ->
@@ -80,8 +87,6 @@ defmodule SampsonCookbookWeb.RecipeController do
         render(conn, "edit.html", recipe: recipe, changeset: changeset, id: id)
     end
   end
-  def update(conn, %{"id" => id, "recipe" => recipe_params, "delete_images" => delete_image_params}), do: update(conn, %{"id" => id, "recipe" => recipe_params, "delete_images" => delete_image_params, "images" => %{}})
-  def update(conn, %{"id" => id, "recipe" => recipe_params}), do: update(conn, %{"id" => id, "recipe" => recipe_params, "delete_images" => %{}, "images" => %{}})
 
   def delete(conn, %{"id" => id}) do
     recipe = Book.get_recipe!(id)
