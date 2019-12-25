@@ -24,7 +24,7 @@
 <%= for recipe <- @recipes do %>
     <tr>
       <td><%= recipe.name %></td>
-      <td><%= recipe.est_time %></td>
+      <td><%= cook_time(recipe) %></td>
       <td>
         <%= if recipe.tags == nil, do: '', else: Enum.join(recipe.tags, ", ") %>
       </td>

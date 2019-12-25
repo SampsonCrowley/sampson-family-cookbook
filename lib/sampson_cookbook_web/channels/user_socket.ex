@@ -28,7 +28,7 @@ defmodule SampsonCookbookWeb.UserSocket do
     end
   end
 
-  def connect(_params, socket) do
+  def connect(_params, _socket) do
     :error
   end
 
