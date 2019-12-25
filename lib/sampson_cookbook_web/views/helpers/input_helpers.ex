@@ -5,7 +5,6 @@ defmodule SampsonCookbookWeb.InputHelpers do
   def array_input(form, field, numbered) do
     values = Phoenix.HTML.Form.input_value(form, field) || [""]
     id = Phoenix.HTML.Form.input_id(form,field)
-    type = Phoenix.HTML.Form.input_type(form, field)
     wrapper_type = case numbered do
       false -> :ul
       _ -> :ol
@@ -46,7 +45,6 @@ defmodule SampsonCookbookWeb.InputHelpers do
     minutes = div(rem(value - seconds, (60 * 60)), 60)
     hours = div((value - (minutes + seconds)), (60 * 60))
     id = Phoenix.HTML.Form.input_id(form,field)
-    type = Phoenix.HTML.Form.input_type(form, field)
     content_tag :div, id: container_id(id), class: "duration-input-container row", data: [value: value ] do
       [
         content_tag :div, class: "column" do

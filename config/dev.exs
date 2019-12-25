@@ -65,6 +65,11 @@ config :sampson_cookbook, SampsonCookbookWeb.Endpoint,
     ]
   ]
 
+config :sampson_cookbook, SampsonCookbook.Auth.Guardian,
+       issuer: "sampson_cookbook",
+       secret_key: "4L/RJfsBXXyEej2zsCDwAEFIdPaCNhwWY8E5BNU4f0cfczAVIQ11p4QwwBijYJvA"
+
+
 # Do not include metadata nor timestamps in development logs
 config :logger, :console, format: "[$level] $message\n"
 
