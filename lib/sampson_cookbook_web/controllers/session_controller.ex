@@ -14,7 +14,7 @@ defmodule SampsonCookbookWeb.SessionController do
 
   def delete(conn, _) do
     conn
-    |> Guardian.Plug.sign_out(Auth.Guardian)
+    |> Guardian.Plug.sign_out(Auth.Guardian, _opts = [])
     |> redirect(to: Routes.session_path(conn, :new))
   end
 

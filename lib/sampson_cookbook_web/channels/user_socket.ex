@@ -16,8 +16,20 @@ defmodule SampsonCookbookWeb.UserSocket do
   #
   # See `Phoenix.Token` documentation for examples in
   # performing token verification on connect.
-  def connect(_params, socket, _connect_info) do
-    {:ok, socket}
+  def connect(%{"token" => token}, socket, _connect_info) do
+    connect(%{"token" => token}, socket)
+  end
+
+  def connect(%{"token" => token}, socket) do
+    case Guardian.Phoenix.Socket.authenticate(socket, SampsonCookbook.Guardian, token) do
+      {:ok, authed_socket} ->
+        {:ok, authed_socket}
+      {:error, _} -> :error
+    end
+  end
+
+  def connect(_params, socket) do
+    :error
   end
 
   # Socket id's are topics that allow you to identify all sockets for a given user:
