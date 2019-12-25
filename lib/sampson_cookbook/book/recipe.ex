@@ -10,6 +10,7 @@ defmodule SampsonCookbook.Book.Recipe do
     field :tags, {:array, :string}
     has_many :ingredients, Book.Ingredient
     has_many :steps, Book.Step
+    has_many :images, SampsonCookbook.Image
 
     timestamps()
   end
@@ -21,6 +22,7 @@ defmodule SampsonCookbook.Book.Recipe do
     |> validate_required([:name, :est_time, :tags])
     |> cast_assoc(:ingredients)
     |> cast_assoc(:steps)
+    |> cast_assoc(:images)
   end
 
   @doc false

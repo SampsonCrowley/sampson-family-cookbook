@@ -17,6 +17,7 @@ defmodule SampsonCookbookWeb.Router do
     pipe_through :browser
 
     resources "/recipes", RecipeController
+    get "/images/:id", ImageController, :index
     get "/", RecipeController, :index
   end
 

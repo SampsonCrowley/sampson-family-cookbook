@@ -1,4 +1,4 @@
-<%= form_for @changeset, @action, fn f -> %>
+<%= form_for @changeset, @action, [multipart: true], fn f -> %>
   <%= if @changeset.action do %>
     <div class="alert alert-danger">
       <p>Oops, something went wrong! Please check the errors below.</p>
@@ -26,6 +26,35 @@
     <%= array_input f, :tags, false %>
     <%= array_add_button f, :tags, "Add Search Tag" %>
     <%= error_tag f, :tags %>
+  </section>
+  <hr>
+  <section>
+    <header>
+      <h3>
+        Images
+      </h3>
+    </header>
+    <div class="row">
+      <%= for image_id <- image_ids(@id) do %>
+      <div class="column column-25 expandable border-form-group">
+        <img src="/images/<%= image_id %>" alt="Recipe Image">
+        <input type="hidden" name="delete_images[<%= image_id %>][delete]" value="false">
+        <label>
+          <input
+            class="checkbox"
+            id="delete_images_<%= image_id %>"
+            name="delete_images[<%= image_id %>][delete]"
+            type="checkbox"
+            value="true"
+          >
+          Delete?
+        </label>
+      </div>
+      <% end %>
+    </div>
+    <div id="recipe_images">
+    </div>
+    <button drab="click:add_recipe_image">Add Image</button>
   </section>
   <hr>
   <section>

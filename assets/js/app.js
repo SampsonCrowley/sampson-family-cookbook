@@ -22,6 +22,16 @@ const removeArrayElement = (target) => {
   li.parentNode.removeChild(li);
 }
 
+const removeHasManyRow = (target) => {
+  let remove = target, parent = target.parentNode
+  while (!remove.classList.contains("row") && remove.tagName !== "TR") {
+    remove = parent
+    parent = remove.parentNode
+    if(!parent) return false
+  }
+  parent.removeChild(remove)
+}
+
 const addArrayElement = ({dataset}) => {
   let container = document.getElementById(dataset.container),
       index     = container.dataset.index,
@@ -30,10 +40,23 @@ const addArrayElement = ({dataset}) => {
   container.dataset.index = parseInt(container.dataset.index) + 1
 }
 
+const toggleFullScreen = (target) => {
+  let el = target
+  while (!el.classList.contains("expandable")) {
+    el = el.parentNode
+    if(!el) return false
+  }
+  console.log(el, target)
+  if(el.classList.contains("expanded")) el.classList.remove("expanded")
+  else el.classList.add("expanded")
+}
+
 const onClick = (ev) => {
   const target = ev.target
   if(target.classList.contains("remove-form-field")) return removeArrayElement(target)
   if(target.classList.contains("add-form-field")) return addArrayElement(target)
+  if(target.classList.contains("remove-has-many-row")) return removeHasManyRow(target)
+  if(target.classList.contains("expandable") || target.matches(".expandable *")) return toggleFullScreen(target)
 }
 
 const setDuration = ({dataset: { id }}) => {

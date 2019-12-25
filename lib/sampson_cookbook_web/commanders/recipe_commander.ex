@@ -5,12 +5,13 @@ defmodule SampsonCookbookWeb.RecipeCommander do
   # def button_clicked(socket, sender) do
   #   set_prop socket, "#output_div", innerHTML: "Clicked the button!"
   # end
-  defhandler add_recipe_step(socket, _sender) do
+
+  defhandler add_recipe_image(socket, _sender) do
     insert_html(
       socket,
-      "#step_table_body",
+      "#recipe_images",
       :beforeend,
-      step_html()
+      image_html()
     )
   end
 
@@ -21,6 +22,31 @@ defmodule SampsonCookbookWeb.RecipeCommander do
       :beforeend,
       ingredient_html()
     )
+  end
+
+  defhandler add_recipe_step(socket, _sender) do
+    insert_html(
+      socket,
+      "#step_table_body",
+      :beforeend,
+      step_html()
+    )
+  end
+
+  def image_html() do
+    item_no = Enum.random(999..5999)
+    id = "recipe_images_#{item_no}_image"
+    """
+    <div class="form-group">
+      <label for="#{id}" class="control-label">
+      <input
+        class="form-control"
+        id="#{id}"
+        name="images[#{item_no}][image]"
+        type="file"
+      >
+    </div>
+    """
   end
 
   def ingredient_html() do
@@ -58,15 +84,7 @@ defmodule SampsonCookbookWeb.RecipeCommander do
           >
         </td>
         <td>
-          <input
-            name="recipe[ingredients][#{item_no}][required]"
-            type="hidden" value="false">
-          <input
-            class="checkbox"
-            id="recipe_ingredients_#{item_no}_delete"
-            name="recipe[ingredients][#{item_no}][delete]"
-            type="checkbox"
-            value="true">
+          <button type="button" class="remove-has-many-row">Cancel</button>
         </td>
       </tr>
     """
@@ -94,16 +112,7 @@ defmodule SampsonCookbookWeb.RecipeCommander do
           >
         </td>
         <td>
-          <input
-            name="recipe[steps][#{item_no}][required]"
-            type="hidden" value="false">
-          <input
-            class="checkbox"
-            id="recipe_steps_#{item_no}_delete"
-            name="recipe[steps][#{item_no}][delete]"
-            type="checkbox"
-            value="true"
-          >
+          <button type="button" class="remove-has-many-row">Cancel</button>
         </td>
       </tr>
     """

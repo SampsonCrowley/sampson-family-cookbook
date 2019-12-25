@@ -34,10 +34,41 @@ defmodule SampsonCookbook.Book do
       ** (Ecto.NoResultsError)
 
   """
-  def get_recipe!(id) do
-    Repo.get!(Recipe, id)
-    |> Repo.preload(:ingredients)
-    |> Repo.preload(:steps)
+  def get_recipe!(id), do: get_recipe!(id, false)
+
+  def get_recipe!(id, with_images) do
+    query = Repo.get!(Recipe, id)
+      |> Repo.preload(:ingredients)
+      |> Repo.preload(:steps)
+    case with_images do
+      true -> query |> Repo.preload(:images)
+      _ -> query
+    end
+  end
+
+  @doc """
+  Gets a list of image ids for a recipe.
+
+  ## Examples
+
+      iex> recipe = get_recipe!(123)
+      iex> get_recipe_image_ids(recipe)
+      [1, 2, 3]
+
+  """
+  def get_recipe_image_ids(recipe) do
+    recipe_id = try do
+      recipe.id
+    rescue
+      _ -> recipe
+    end
+
+    cond do
+      is_nil(recipe_id) -> []
+      true ->
+        from(i in SampsonCookbook.Image, where: i.recipe_id == ^recipe_id, select: i.id)
+        |> Repo.all
+    end
   end
 
   @doc """
@@ -74,6 +105,40 @@ defmodule SampsonCookbook.Book do
     recipe
     |> Recipe.update_changeset(attrs)
     |> Repo.update()
+  end
+
+  def insert_images(%Recipe{} = recipe, attrs, delete_attrs) do
+    IO.inspect(attrs)
+
+    Enum.map(
+      attrs,
+      fn {_, image_attrs} ->
+        %SampsonCookbook.Image{}
+        |> SampsonCookbook.Image.update_changeset(image_attrs, recipe)
+        |> Repo.insert()
+      end
+    )
+    |> Enum.all?(fn {status, _} -> status == :ok end)
+    |>  case do
+          true ->
+            Enum.map(
+              delete_attrs,
+              fn {id, image_attrs} ->
+                case image_attrs do
+                  %{"delete" => "true"} ->
+                    Repo.get!(SampsonCookbook.Image, id)
+                    |> Repo.delete()
+                  _ -> {:ok, %SampsonCookbook.Image{}}
+                end
+              end
+            )
+            |> Enum.all?(fn {status, _} -> status == :ok end)
+            |>  case do
+                  true -> {:ok, recipe}
+                  _ -> {:error, recipe |> Recipe.update_changeset(%{})}
+                end
+          _ -> {:error, recipe |> Recipe.update_changeset(%{})}
+        end
   end
 
   @doc """

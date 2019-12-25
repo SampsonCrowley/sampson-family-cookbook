@@ -44,3 +44,28 @@ section.info { margin-bottom: 2rem; }
 section.info > * { margin-left: 2rem; }
 section.info > header { margin-left: unset; }
 .form-group { margin-bottom: 1rem; }
+
+.expandable.expanded {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  max-width: unset !important;
+  z-index: 5000 !important;
+  overflow: auto !important;
+  flex: unset !important;
+  display: flex !important;
+  align-items: flex-start !important;
+  justify-content: center !important;
+}
+
+.border-form-group {
+  margin-bottom: 1rem !important;
+}
+.border-form-group:after {
+  content: " ";
+  display: block;
+  border-bottom: 1px solid #222;
+}

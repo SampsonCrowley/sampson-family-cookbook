@@ -25,6 +25,20 @@
   <section class="info">
     <header>
       <h2>
+        Images
+      </h2>
+    </header>
+    <div class="row">
+      <%= for image_id <- image_ids(@recipe.id) do %>
+      <div class="column column-25 expandable">
+        <img src="/images/<%= image_id %>" alt="Recipe Image">
+      </div>
+      <% end %>
+    </div>
+  </section>
+  <section class="info">
+    <header>
+      <h2>
         Ingredients List
       </h2>
     </header>

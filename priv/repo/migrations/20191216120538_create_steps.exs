@@ -5,7 +5,7 @@ defmodule SampsonCookbook.Repo.Migrations.CreateSteps do
     create table(:steps) do
       add :details, :string
       add :order, :integer, null: false
-      add :recipe_id, references(:recipes, on_delete: :nothing)
+      add :recipe_id, references(:recipes, on_delete: :delete_all), null: false
 
       timestamps()
     end
