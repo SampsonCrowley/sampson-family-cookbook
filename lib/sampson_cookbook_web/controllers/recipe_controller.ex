@@ -5,9 +5,14 @@ defmodule SampsonCookbookWeb.RecipeController do
   alias SampsonCookbook.Book
   alias SampsonCookbook.Book.Recipe
 
+  def index(conn, %{"search" => search}) do
+    recipes = Book.find_recipes(search)
+    render(conn, "search.html", recipes: recipes, search: search)
+  end
+
   def index(conn, _params) do
     recipes = Book.list_recipes()
-    render(conn, "index.html", recipes: recipes)
+    render(conn, "index.html", recipes: recipes, search: "")
   end
 
   def new(conn, _params) do

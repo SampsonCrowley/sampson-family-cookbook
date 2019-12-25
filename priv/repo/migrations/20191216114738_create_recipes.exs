@@ -3,9 +3,9 @@ defmodule SampsonCookbook.Repo.Migrations.CreateRecipes do
 
   def change do
     create table(:recipes) do
-      add :name, :text, null: false
+      add :name, :citext, null: false
       add :est_time, :integer
-      add :tags, {:array, :text}
+      add :tags, {:array, :citext}
 
       timestamps()
     end

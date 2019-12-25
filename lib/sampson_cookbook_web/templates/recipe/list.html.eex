@@ -1,0 +1,42 @@
+<div class="row form-group">
+  <div class="column">
+    <%= form_for @conn, Routes.recipe_path(@conn, :index), [method: :get], fn f -> %>
+      <div class="form-group">
+      <%= text_input f, :search, placeholder: "Search Recipes by Tags or Name",
+                        class: "form-control", value: @search %>
+      </div>
+      <%= submit "Search!", class: "btn btn-primary" %>
+    <% end %>
+  </div>
+</div>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Est time</th>
+      <th>Tags</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for recipe <- @recipes do %>
+    <tr>
+      <td><%= recipe.name %></td>
+      <td><%= recipe.est_time %></td>
+      <td>
+        <%= if recipe.tags == nil, do: '', else: Enum.join(recipe.tags, ", ") %>
+      </td>
+
+      <td>
+        <span><%= link "Show", to: Routes.recipe_path(@conn, :show, recipe), class: "button" %></span>
+        <span><%= link "Edit", to: Routes.recipe_path(@conn, :edit, recipe), class: "button alert-info" %></span>
+        <span><%= link "Delete", to: Routes.recipe_path(@conn, :delete, recipe), class: "button alert-danger", method: :delete, data: [confirm: "Are you sure?"] %></span>
+      </td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+
+<span><%= link "New Recipe", to: Routes.recipe_path(@conn, :new), class: 'button' %></span>

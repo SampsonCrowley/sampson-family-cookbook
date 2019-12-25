@@ -20,6 +20,17 @@ defmodule SampsonCookbook.Book do
     Repo.all(Recipe)
   end
 
+  def find_recipes(search) do
+    split = search |> String.split(" ", trim: true)
+    like_search = "%#{search}%"
+
+    from(
+      r in Recipe,
+      where: fragment("? @> ? OR ? LIKE ?", r.tags, ^split, r.name, ^like_search)
+    )
+    |> Repo.all()
+  end
+
   @doc """
   Gets a single recipe.
 
