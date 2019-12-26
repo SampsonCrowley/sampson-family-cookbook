@@ -34,6 +34,7 @@ table.has-many-wrapper tr {
   list-style-type: none;
 }
 .cooking-steps pre {
+  white-space: pre-wrap;
   margin: 0;
   font-size: 1em;
   padding: .25em .5em;
