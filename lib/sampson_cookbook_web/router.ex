@@ -36,7 +36,8 @@ defmodule SampsonCookbookWeb.Router do
 
     resources "/recipes", RecipeController, only: [:index, :show]
     resources "/sessions", SessionController, only: [:new, :create]
-    get "/images/:id", ImageController, :index
+    get "/images/:id", ImageController, :show
+    get "/images/:id/preview", ImageController, :preview
   end
 
   # Other scopes may use custom stacks.

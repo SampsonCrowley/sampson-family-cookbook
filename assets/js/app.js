@@ -46,9 +46,19 @@ const toggleFullScreen = (target) => {
     el = el.parentNode
     if(!el) return false
   }
-  console.log(el, target)
-  if(el.classList.contains("expanded")) el.classList.remove("expanded")
-  else el.classList.add("expanded")
+  const previewable = el.querySelectorAll("img.with-preview")
+  console.log(el, target, previewable)
+  if(el.classList.contains("expanded")) {
+    el.classList.remove("expanded")
+    previewable.forEach(img => {
+      img.src = `${img.src}/preview`.replace(/(\/+preview)+/, "/preview")
+    })
+  } else {
+    el.classList.add("expanded")
+    previewable.forEach(img => {
+      img.src = `${img.src}`.replace(/(\/+preview)+/, "")
+    })
+  }
 }
 
 const onClick = (ev) => {

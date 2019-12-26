@@ -39,6 +39,7 @@ defmodule SampsonCookbook.MixProject do
       {:guardian_phoenix, "~> 2.0"},
       {:gettext, "~> 0.11"},
       {:jason, "~> 1.0"},
+      {:mogrify, "~> 0.7.3"},
       {:phoenix, "~> 1.4.11"},
       {:phoenix_ecto, "~> 4.0"},
       {:phoenix_html, "~> 2.11"},
