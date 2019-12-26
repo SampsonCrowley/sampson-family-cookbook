@@ -132,12 +132,16 @@ defmodule SampsonCookbookWeb.RecipeCommander do
   end
 
   defp get_count(params) do
-    params
-    |> Map.keys()
-    |> Enum.map(fn k -> Integer.parse(k) end)
-    |> Enum.map(fn {i, _} -> i end)
-    |> Enum.sort()
-    |> Enum.at(-1, 0)
+    case params do
+      nil -> -1
+      _ ->
+        params
+        |> Map.keys()
+        |> Enum.map(fn k -> Integer.parse(k) end)
+        |> Enum.map(fn {i, _} -> i end)
+        |> Enum.sort()
+        |> Enum.at(-1, 0)
+    end
   end
 
   # Place you callbacks here
