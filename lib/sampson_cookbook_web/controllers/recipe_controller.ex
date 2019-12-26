@@ -17,7 +17,10 @@ defmodule SampsonCookbookWeb.RecipeController do
   def new(conn, _params) do
     changeset = Book.change_recipe(
       %Recipe{
-        ingredients: [],
+        ingredients: [
+          %Book.Ingredient{},
+          %Book.Ingredient{},
+        ],
         steps: []
       }
     )

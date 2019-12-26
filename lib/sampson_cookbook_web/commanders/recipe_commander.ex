@@ -6,35 +6,42 @@ defmodule SampsonCookbookWeb.RecipeCommander do
   #   set_prop socket, "#output_div", innerHTML: "Clicked the button!"
   # end
 
-  defhandler add_recipe_image(socket, _sender) do
+  defhandler add_recipe_image(socket, sender) do
+    count = get_count(sender[:params]["recipe"]["images"])
+
     insert_html(
       socket,
       "#recipe_images",
       :beforeend,
-      image_html()
+      image_html(count)
     )
   end
 
-  defhandler add_recipe_ingredient(socket, _sender) do
+  defhandler add_recipe_ingredient(socket, sender) do
+    count = get_count(sender[:params]["recipe"]["ingredients"])
+
     insert_html(
       socket,
       "#ingredient_table_body",
       :beforeend,
-      ingredient_html()
+      ingredient_html(count)
     )
   end
 
-  defhandler add_recipe_step(socket, _sender) do
+  defhandler add_recipe_step(socket, sender) do
+    count = get_count(sender[:params]["recipe"]["steps"])
+
     insert_html(
       socket,
       "#step_table_body",
       :beforeend,
-      step_html()
+      step_html(count)
     )
   end
 
-  def image_html() do
-    item_no = Enum.random(999..5999)
+  def image_html(count) do
+    item_no = count + 1
+
     id = "recipe_images_#{item_no}_image"
     """
     <div class="form-group">
@@ -49,12 +56,18 @@ defmodule SampsonCookbookWeb.RecipeCommander do
     """
   end
 
-  def ingredient_html() do
-    item_no = Enum.random(999..5999)
+  def ingredient_html(count) do
+    item_no = count + 1
 
     """
       <tr>
         <td>
+          <input
+            id="recipe_ingredients_#{item_no}_id"
+            name="recipe[ingredients][#{item_no}][id]"
+            type="hidden"
+            value=""
+          >
           <input
             class="form-control"
             id="recipe_ingredients_#{item_no}_name"
@@ -90,8 +103,8 @@ defmodule SampsonCookbookWeb.RecipeCommander do
     """
   end
 
-  def step_html() do
-    item_no = Enum.random(999..5999)
+  def step_html(count) do
+    item_no = count + 1
 
     """
       <tr>
@@ -116,6 +129,15 @@ defmodule SampsonCookbookWeb.RecipeCommander do
         </td>
       </tr>
     """
+  end
+
+  defp get_count(params) do
+    params
+    |> Map.keys()
+    |> Enum.map(fn k -> Integer.parse(k) end)
+    |> Enum.map(fn {i, _} -> i end)
+    |> Enum.sort()
+    |> Enum.at(-1, 0)
   end
 
   # Place you callbacks here
