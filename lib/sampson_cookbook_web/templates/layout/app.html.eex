@@ -15,6 +15,7 @@
             <li><a href="/recipes">All Recipes</a></li>
           <%= if logged_in?(@conn) do %>
             <li><%= link("Change Account", to: Routes.user_path(@conn, :edit, current_user(@conn))) %></li>
+            <li><%= link "Log Out", to: Routes.session_path(@conn, :delete, 1), method: :delete %></li>
           <% else %>
             <li><a href="/sessions/new">Log In</a></li>
           <% end %>
