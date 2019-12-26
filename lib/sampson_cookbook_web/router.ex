@@ -22,6 +22,14 @@ defmodule SampsonCookbookWeb.Router do
   end
 
   scope "/", SampsonCookbookWeb do
+    pipe_through [:browser, :auth, :ensure_auth]
+
+    resources "/users", UserController
+    resources "/recipes", RecipeController, only: [:new, :create, :edit, :update, :delete]
+    resources "/sessions", SessionController, only: [:delete]
+  end
+
+  scope "/", SampsonCookbookWeb do
     pipe_through [:browser, :auth]
 
     get "/", RecipeController, :index
@@ -29,14 +37,6 @@ defmodule SampsonCookbookWeb.Router do
     resources "/recipes", RecipeController, only: [:index, :show]
     resources "/sessions", SessionController, only: [:new, :create]
     get "/images/:id", ImageController, :index
-  end
-
-  scope "/", SampsonCookbookWeb do
-    pipe_through [:browser, :auth, :ensure_auth]
-
-    resources "/users", UserController
-    resources "/recipes", RecipeController, only: [:new, :create, :edit, :update, :delete]
-    resources "/sessions", SessionController, only: [:delete]
   end
 
   # Other scopes may use custom stacks.
