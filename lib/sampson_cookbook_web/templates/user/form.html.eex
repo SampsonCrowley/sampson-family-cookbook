@@ -9,9 +9,7 @@
   <%= textarea f, :email %>
   <%= error_tag f, :email %>
 
-  <%= label f, :password %>
-  <%= textarea f, :password %>
-  <%= error_tag f, :password %>
+  <%= confirmed_password_input f, :password %>
 
   <div>
     <%= submit "Save" %>

@@ -16,8 +16,8 @@ defmodule SampsonCookbookWeb.UserSocket do
   #
   # See `Phoenix.Token` documentation for examples in
   # performing token verification on connect.
-  def connect(%{"token" => token}, socket, _connect_info) do
-    connect(%{"token" => token}, socket)
+  def connect(params, socket, _connect_info) do
+    connect(params, socket)
   end
 
   def connect(%{"token" => token}, socket) do

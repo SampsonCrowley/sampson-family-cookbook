@@ -1,5 +1,7 @@
 defmodule SampsonCookbookWeb.InputHelpers do
   use Phoenix.HTML
+  alias SampsonCookbookWeb.ErrorHelpers
+
   def array_input(form, field), do: array_input(form, field, true)
 
   def array_input(form, field, numbered) do
@@ -75,6 +77,32 @@ defmodule SampsonCookbookWeb.InputHelpers do
               duration_form_element(form, field, seconds, "seconds")
             ]
           end
+        end
+      ]
+    end
+  end
+
+  def confirmed_password_input(form, field) do
+    confirmation_field = String.to_atom("#{field}_confirmation")
+    id = Phoenix.HTML.Form.input_id(form,field)
+    confirmation_id = Phoenix.HTML.Form.input_id(form,field)
+
+    content_tag :div, id: container_id(id), class: "password-input-container row", data: [id: id] do
+      [
+        content_tag :div, class: "column column-100 form-group" do
+          [
+            label(form, field),
+            password_input(form, field, data: [confirmation: confirmation_id]),
+            ErrorHelpers.error_tag(form, field)
+          ]
+        end,
+
+        content_tag :div, class: "column column-100 form-group" do
+          [
+            label(form, confirmation_field),
+            password_input(form, confirmation_field, data: [id: id]),
+            ErrorHelpers.error_tag(form, confirmation_field)
+          ]
         end
       ]
     end

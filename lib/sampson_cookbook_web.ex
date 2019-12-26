@@ -39,8 +39,9 @@ defmodule SampsonCookbookWeb do
       # Use all HTML functionality (forms, tags, etc)
       use Phoenix.HTML
 
-      import SampsonCookbookWeb.ErrorHelpers
       import SampsonCookbookWeb.Gettext
+      import SampsonCookbookWeb.AuthHelpers
+      import SampsonCookbookWeb.ErrorHelpers
       alias SampsonCookbookWeb.Router.Helpers, as: Routes
       import SampsonCookbookWeb.InputHelpers
     end

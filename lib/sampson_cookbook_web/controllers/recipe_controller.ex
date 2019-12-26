@@ -1,6 +1,5 @@
 defmodule SampsonCookbookWeb.RecipeController do
   use SampsonCookbookWeb, :controller
-  use Drab.Controller
 
   alias SampsonCookbook.Book
   alias SampsonCookbook.Book.Recipe
@@ -64,7 +63,7 @@ defmodule SampsonCookbookWeb.RecipeController do
     recipe_params = Map.put_new(recipe_params, "tags", [])
     delete_image_params = params["delete_images"] || %{}
     image_params = params["images"] || %{}
-    
+
     IO.inspect "MAIN FUNC"
     IO.inspect image_params
     IO.inspect delete_image_params

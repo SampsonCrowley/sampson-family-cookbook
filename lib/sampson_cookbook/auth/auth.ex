@@ -73,8 +73,9 @@ defmodule SampsonCookbook.Auth do
   """
   def create_user(attrs \\ %{}) do
     %User{}
-    |> User.changeset(attrs)
+    |> User.create_changeset(attrs)
     |> Repo.insert()
+    |> User.after_save()
   end
 
   @doc """
@@ -91,8 +92,9 @@ defmodule SampsonCookbook.Auth do
   """
   def update_user(%User{} = user, attrs) do
     user
-    |> User.changeset(attrs)
+    |> User.update_changeset(attrs)
     |> Repo.update()
+    |> User.after_save()
   end
 
   @doc """
@@ -121,6 +123,6 @@ defmodule SampsonCookbook.Auth do
 
   """
   def change_user(%User{} = user) do
-    User.changeset(user, %{})
+    User.update_changeset(user, %{})
   end
 end
