@@ -85,7 +85,7 @@
           <div class="column column-10">
             Step <%= i + 1 %>
           </div>
-          <div class="column">
+          <div class="column column-90">
             <pre><%= step.details %></pre>
           </div>
         </div>
