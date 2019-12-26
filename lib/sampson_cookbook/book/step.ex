@@ -18,6 +18,7 @@ defmodule SampsonCookbook.Book.Step do
     step
     |> cast(attrs, [:details, :order])
     |> validate_required([:details, :order])
+    |> unique_constraint(:recipe_order, name: :steps_recipe_id_order_index)
   end
 
   @doc false
@@ -25,6 +26,7 @@ defmodule SampsonCookbook.Book.Step do
     Ecto.build_assoc(recipe, :steps)
     |> cast(attrs, [:details, :order, :recipe_id])
     |> validate_required([:details, :order, :recipe_id])
+    |> unique_constraint(:recipe_order, name: :steps_recipe_id_order_index)
   end
 
   @doc false
@@ -32,6 +34,7 @@ defmodule SampsonCookbook.Book.Step do
     step
     |> cast(attrs, [:details, :order, :recipe_id, :delete])
     |> validate_required([:details, :order, :recipe_id])
+    |> unique_constraint(:order, name: :steps_recipe_id_order_index)
     |> mark_for_delete()
   end
 

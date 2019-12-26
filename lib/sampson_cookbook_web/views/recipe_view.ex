@@ -24,10 +24,12 @@ defmodule SampsonCookbookWeb.RecipeView do
   end
 
   def ordered_steps(steps) do
-    case steps do
-      nil -> []
-      _ -> Enum.sort(steps, fn(x,y) -> x.order < y.order end) |> Enum.with_index
-    end
+    (steps || [])
+    |> Enum.with_index()
+    # case steps do
+    #   nil -> []
+    #   _ -> Enum.sort(steps, fn(x,y) -> x.order < y.order end) |> Enum.with_index
+    # end
   end
 
   def image_ids(recipe), do: SampsonCookbook.Book.get_recipe_image_ids(recipe)

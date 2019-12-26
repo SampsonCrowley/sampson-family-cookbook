@@ -6,6 +6,8 @@ defmodule SampsonCookbook.Book do
   import Ecto.Query
   alias SampsonCookbook.Repo
   alias SampsonCookbook.Book.Recipe
+  alias SampsonCookbook.Book.Ingredient
+  alias SampsonCookbook.Book.Step
 
   @doc """
   Returns the list of recipes.
@@ -49,8 +51,8 @@ defmodule SampsonCookbook.Book do
 
   def get_recipe!(id, with_images) do
     query = Repo.get!(Recipe, id)
-      |> Repo.preload(:ingredients)
-      |> Repo.preload(:steps)
+      |> Repo.preload([ingredients: (from i in Ingredient, order_by: i.id)])
+      |> Repo.preload([steps: (from s in Step, order_by: s.order)])
     case with_images do
       true -> query |> Repo.preload(:images)
       _ -> query
@@ -77,8 +79,13 @@ defmodule SampsonCookbook.Book do
     cond do
       is_nil(recipe_id) -> []
       true ->
-        from(i in SampsonCookbook.Image, where: i.recipe_id == ^recipe_id, select: i.id)
-        |> Repo.all
+        from(
+          i in SampsonCookbook.Image,
+          where: i.recipe_id == ^recipe_id,
+          select: i.id,
+          order_by: i.id
+        )
+        |> Repo.all()
     end
   end
 
@@ -181,8 +188,6 @@ defmodule SampsonCookbook.Book do
     Recipe.changeset(recipe, %{})
   end
 
-  alias SampsonCookbook.Book.Ingredient
-
   @doc """
   Returns the list of ingredients.
 
@@ -276,8 +281,6 @@ defmodule SampsonCookbook.Book do
   def change_ingredient(%Ingredient{} = ingredient) do
     Ingredient.changeset(ingredient, %{})
   end
-
-  alias SampsonCookbook.Book.Step
 
   @doc """
   Returns the list of steps.
