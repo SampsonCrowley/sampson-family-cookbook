@@ -32,6 +32,8 @@ defmodule SampsonCookbook.Image do
   defp store_image(changeset) do
     case changeset do
       %Ecto.Changeset{valid?: true, changes: %{image: image}} ->
+        auto_orient_image(image.path)
+
         changeset
         |> put_change(:image_type, image.content_type)
         |> put_change(:image_name, image.filename)
@@ -55,6 +57,12 @@ defmodule SampsonCookbook.Image do
             )
       _ -> changeset
     end
+  end
+
+  defp auto_orient_image(path) do
+    Mogrify.open(path)
+    |> Mogrify.auto_orient()
+    |> Mogrify.save(in_place: true)
   end
 
   defp resize_image(path) do
